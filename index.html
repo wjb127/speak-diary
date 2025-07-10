@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Supabase 라이브러리 -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- Header -->
@@ -34,7 +37,7 @@
                 <p class="hero-subtitle">
                     혼자서도 꾸준히 할 수 있는 감정 일기 + 영어 말하기 연습
                 </p>
-                <button class="cta-button" onclick="scrollToDemo()">
+                <button class="cta-button" onclick="scrollToDemo(); trackButtonClick('experience')">
                     <i class="fas fa-play"></i>
                     지금 체험해보기
                 </button>
@@ -56,10 +59,64 @@
         </div>
     </section>
 
+    <!-- Top Preorder Section -->
+    <section class="top-preorder-section">
+        <div class="container">
+            <div class="top-preorder-content">
+                <h2 class="section-title">🎯 사전 주문 특가</h2>
+                <p class="preorder-description">
+                    출시 전 특별 할인가로 미리 주문하세요!<br>
+                    <strong>30% 할인 + 추가 혜택</strong>을 받을 수 있습니다.
+                </p>
+                
+                <div class="top-preorder-form-container">
+                    <form id="topPreorderForm" class="top-preorder-form">
+                        <div class="form-group">
+                            <input 
+                                type="email" 
+                                id="topPreorderEmail" 
+                                placeholder="이메일 주소를 입력해주세요" 
+                                required
+                            >
+                            <button type="submit" class="preorder-submit-btn" onclick="trackButtonClick('preorder')">
+                                <i class="fas fa-shopping-cart"></i>
+                                사전 주문하기
+                            </button>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="topMarketingOptIn" checked>
+                                <span class="checkmark"></span>
+                                마케팅 정보 수신 동의 (선택)
+                            </label>
+                        </div>
+                        <div class="form-note">
+                            <p>💰 정가 ₩29,000 → 특가 ₩19,000 (30% 할인)</p>
+                        </div>
+                    </form>
+                    
+                    <div id="topPreorderSuccessMessage" class="success-message" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <p>사전 주문이 완료되었습니다!<br>출시 소식과 할인 혜택을 이메일로 알려드릴게요.</p>
+                    </div>
+                    
+                    <div id="topPreorderErrorMessage" class="error-message" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>신청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Demo Section -->
     <section id="demo" class="demo-section">
         <div class="container">
-            <h2 class="section-title">🎯 데모 체험</h2>
+            <h2 class="section-title">🎯 서비스 미리보기</h2>
+            <div class="demo-notice">
+                <p><i class="fas fa-info-circle"></i> 실제 서비스의 주요 기능들을 미리 체험해보세요</p>
+            </div>
+            
             <div class="demo-tabs">
                 <button class="tab-button active" onclick="showTab('diary')">
                     <i class="fas fa-edit"></i>
@@ -79,50 +136,42 @@
             <div id="diary-tab" class="tab-content active">
                 <div class="demo-card">
                     <h3>📝 감정 일기 작성</h3>
-                    <p>오늘의 감정을 선택하고 일기를 작성해보세요.</p>
+                    <p>감정을 선택하면 관련 키워드와 질문이 제공됩니다.</p>
                     
                     <div class="emotion-selector">
                         <div class="emotion-grid">
-                            <button class="emotion-btn" onclick="selectEmotion('😊', '기쁨')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😊', '기쁨')">
                                 <span class="emotion-icon">😊</span>
                                 <span>기쁨</span>
                             </button>
-                            <button class="emotion-btn" onclick="selectEmotion('😢', '슬픔')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😢', '슬픔')">
                                 <span class="emotion-icon">😢</span>
                                 <span>슬픔</span>
                             </button>
-                            <button class="emotion-btn" onclick="selectEmotion('😡', '분노')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😡', '분노')">
                                 <span class="emotion-icon">😡</span>
                                 <span>분노</span>
                             </button>
-                            <button class="emotion-btn" onclick="selectEmotion('😰', '불안')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😰', '불안')">
                                 <span class="emotion-icon">😰</span>
                                 <span>불안</span>
                             </button>
-                            <button class="emotion-btn" onclick="selectEmotion('😌', '평온')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😌', '평온')">
                                 <span class="emotion-icon">😌</span>
                                 <span>평온</span>
                             </button>
-                            <button class="emotion-btn" onclick="selectEmotion('😴', '피곤')">
+                            <button class="emotion-btn" onclick="showEmotionExample('😴', '피곤')">
                                 <span class="emotion-icon">😴</span>
                                 <span>피곤</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="selected-emotion" id="selectedEmotion">
-                        <p>감정을 선택해주세요</p>
-                    </div>
-
-                    <div class="emotion-prompts" id="emotionPrompts"></div>
-
-                    <textarea id="diaryText" placeholder="오늘의 감정에 대해 자유롭게 써보세요..."></textarea>
-                    
-                    <div class="demo-actions">
-                        <button class="action-btn primary" onclick="processDiary()">
-                            <i class="fas fa-arrow-right"></i>
-                            영작하기
-                        </button>
+                    <div class="demo-result" id="diaryResult">
+                        <div class="result-placeholder">
+                            <p>감정을 선택해보세요!</p>
+                            <p class="result-note">선택한 감정에 따라 관련 키워드와 질문이 표시됩니다.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,42 +180,28 @@
             <div id="translate-tab" class="tab-content">
                 <div class="demo-card">
                     <h3>🔄 영작/번역</h3>
-                    <p>한국어 일기를 영어로 번역하거나 직접 영작해보세요.</p>
+                    <p>예시 문장을 선택하면 영어 번역 결과를 확인할 수 있습니다.</p>
                     
-                    <div class="translation-modes">
-                        <label class="mode-option">
-                            <input type="radio" name="mode" value="auto" checked>
-                            <span>자동 번역</span>
-                        </label>
-                        <label class="mode-option">
-                            <input type="radio" name="mode" value="manual">
-                            <span>직접 영작</span>
-                        </label>
-                    </div>
-
-                    <div class="translation-container">
-                        <div class="text-area-container">
-                            <label>한국어 일기</label>
-                            <textarea id="koreanText" placeholder="번역할 한국어 텍스트를 입력하세요..."></textarea>
-                        </div>
-                        <div class="translate-arrow">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                        <div class="text-area-container">
-                            <label>영어 번역</label>
-                            <textarea id="englishText" placeholder="여기에 영어 번역이 나타납니다..."></textarea>
+                    <div class="example-sentences">
+                        <h4>예시 문장을 선택해보세요:</h4>
+                        <div class="sentence-options">
+                            <button class="sentence-btn" onclick="showTranslationExample('오늘 친구와 카페에서 즐거운 시간을 보냈어요.')">
+                                "오늘 친구와 카페에서 즐거운 시간을 보냈어요."
+                            </button>
+                            <button class="sentence-btn" onclick="showTranslationExample('시험 결과가 나와서 조금 걱정이 되네요.')">
+                                "시험 결과가 나와서 조금 걱정이 되네요."
+                            </button>
+                            <button class="sentence-btn" onclick="showTranslationExample('오늘 하루 종일 바빠서 너무 피곤해요.')">
+                                "오늘 하루 종일 바빠서 너무 피곤해요."
+                            </button>
                         </div>
                     </div>
 
-                    <div class="demo-actions">
-                        <button class="action-btn primary" onclick="translateText()">
-                            <i class="fas fa-language"></i>
-                            번역하기
-                        </button>
-                        <button class="action-btn secondary" onclick="speakText()">
-                            <i class="fas fa-microphone"></i>
-                            말하기 연습으로
-                        </button>
+                    <div class="demo-result" id="translationResult">
+                        <div class="result-placeholder">
+                            <p>예시 문장을 선택해보세요!</p>
+                            <p class="result-note">선택한 문장의 영어 번역과 학습 팁이 표시됩니다.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,33 +210,34 @@
             <div id="speak-tab" class="tab-content">
                 <div class="demo-card">
                     <h3>🔊 말하기 연습</h3>
-                    <p>번역된 영어 문장을 따라 말해보세요.</p>
+                    <p>번역된 영어 문장으로 발음 연습을 할 수 있습니다.</p>
                     
-                    <div class="practice-text" id="practiceText">
-                        <p>번역된 영어 문장이 여기에 나타납니다.</p>
+                    <div class="practice-examples">
+                        <h4>연습할 문장을 선택해보세요:</h4>
+                        <div class="practice-options">
+                            <button class="practice-btn" onclick="showPracticeExample('I had a great time with my friend at the cafe today.')">
+                                "I had a great time with my friend at the cafe today."
+                            </button>
+                            <button class="practice-btn" onclick="showPracticeExample('I\'m a bit worried about the test results.')">
+                                "I'm a bit worried about the test results."
+                            </button>
+                            <button class="practice-btn" onclick="showPracticeExample('I\'m so tired from being busy all day.')">
+                                "I'm so tired from being busy all day."
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="speech-controls">
-                        <button class="speech-btn" onclick="playTargetAudio()">
-                            <i class="fas fa-play"></i>
-                            원어민 발음 듣기
-                        </button>
-                        <button class="speech-btn record" onclick="startRecording()">
-                            <i class="fas fa-microphone"></i>
-                            녹음하기
-                        </button>
-                        <button class="speech-btn" onclick="stopRecording()" disabled>
-                            <i class="fas fa-stop"></i>
-                            녹음 정지
-                        </button>
+                    <div class="demo-result" id="practiceResult">
+                        <div class="result-placeholder">
+                            <p>연습할 문장을 선택해보세요!</p>
+                            <p class="result-note">선택한 문장의 발음 가이드와 학습 팁이 표시됩니다.</p>
+                        </div>
                     </div>
-
-                    <div class="recording-status" id="recordingStatus">
-                        <p>녹음 버튼을 눌러 말하기 연습을 시작하세요</p>
-                    </div>
-
-                    <div class="pronunciation-feedback" id="pronunciationFeedback"></div>
                 </div>
+            </div>
+
+            <div class="demo-footer">
+                <p><i class="fas fa-rocket"></i> 실제 서비스에서는 AI 기반 번역, 음성 인식, 개인 맞춤 피드백 등 더 많은 기능을 제공합니다!</p>
             </div>
         </div>
     </section>
@@ -269,6 +305,71 @@
         </div>
     </section>
 
+    <!-- Preorder Section -->
+    <section class="preorder-section">
+        <div class="container">
+            <div class="preorder-content">
+                <h2 class="section-title">🚀 사전 주문 신청</h2>
+                <p class="preorder-description">
+                    스피크 다이어리 출시 전 특별 혜택을 받고 싶으시다면<br>
+                    이메일을 남겨주세요. 출시 소식과 할인 혜택을 가장 먼저 알려드립니다.
+                </p>
+                
+                <div class="service-options">
+                    <div class="service-card active" data-service="speak-diary">
+                        <div class="service-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3>스피크 다이어리</h3>
+                        <p>감정 일기 + 영어 말하기 연습</p>
+                        <div class="service-price">
+                            <span class="original-price">₩29,000</span>
+                            <span class="discount-price">₩19,000</span>
+                            <span class="discount-badge">30% 할인</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="preorder-form-container">
+                    <form id="preorderForm" class="preorder-form">
+                        <div class="form-group">
+                            <input 
+                                type="email" 
+                                id="preorderEmail" 
+                                placeholder="이메일 주소를 입력해주세요" 
+                                required
+                            >
+                            <button type="submit" class="preorder-submit-btn" onclick="trackButtonClick('preorder')">
+                                <i class="fas fa-shopping-cart"></i>
+                                사전 주문하기
+                            </button>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="marketingOptIn" checked>
+                                <span class="checkmark"></span>
+                                마케팅 정보 수신 동의 (선택)
+                            </label>
+                        </div>
+                        <div class="form-note">
+                            <p>🎁 사전 주문 시 30% 할인 + 추가 혜택을 받아보세요!</p>
+                        </div>
+                    </form>
+                    
+                    <div id="preorderSuccessMessage" class="success-message" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <p>사전 주문이 완료되었습니다!<br>출시 소식과 할인 혜택을 이메일로 알려드릴게요.</p>
+                    </div>
+                    
+                    <div id="preorderErrorMessage" class="error-message" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>신청 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -292,6 +393,7 @@
         </div>
     </footer>
 
+    <script src="supabase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
