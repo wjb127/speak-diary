@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스피크 다이어리 - 감정을 영어로 말해보세요</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-microphone-alt"></i>
+                <span>스피크 다이어리</span>
+            </div>
+            <nav class="nav">
+                <a href="#demo" class="nav-link">데모 체험</a>
+                <a href="#features" class="nav-link">기능</a>
+                <a href="#personas" class="nav-link">사용자</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    내 감정을 영어로 말해보세요
+                </h1>
+                <p class="hero-subtitle">
+                    혼자서도 꾸준히 할 수 있는 감정 일기 + 영어 말하기 연습
+                </p>
+                <button class="cta-button" onclick="scrollToDemo()">
+                    <i class="fas fa-play"></i>
+                    지금 체험해보기
+                </button>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card">
+                    <i class="fas fa-heart"></i>
+                    <span>오늘 기분이 좋았어요</span>
+                </div>
+                <div class="floating-card">
+                    <i class="fas fa-comment"></i>
+                    <span>I felt happy today</span>
+                </div>
+                <div class="floating-card">
+                    <i class="fas fa-microphone"></i>
+                    <span>🎤 말하기 연습</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title">🎯 데모 체험</h2>
+            <div class="demo-tabs">
+                <button class="tab-button active" onclick="showTab('diary')">
+                    <i class="fas fa-edit"></i>
+                    감정 일기 작성
+                </button>
+                <button class="tab-button" onclick="showTab('translate')">
+                    <i class="fas fa-language"></i>
+                    영작/번역
+                </button>
+                <button class="tab-button" onclick="showTab('speak')">
+                    <i class="fas fa-microphone"></i>
+                    말하기 연습
+                </button>
+            </div>
+
+            <!-- 감정 일기 작성 탭 -->
+            <div id="diary-tab" class="tab-content active">
+                <div class="demo-card">
+                    <h3>📝 감정 일기 작성</h3>
+                    <p>오늘의 감정을 선택하고 일기를 작성해보세요.</p>
+                    
+                    <div class="emotion-selector">
+                        <div class="emotion-grid">
+                            <button class="emotion-btn" onclick="selectEmotion('😊', '기쁨')">
+                                <span class="emotion-icon">😊</span>
+                                <span>기쁨</span>
+                            </button>
+                            <button class="emotion-btn" onclick="selectEmotion('😢', '슬픔')">
+                                <span class="emotion-icon">😢</span>
+                                <span>슬픔</span>
+                            </button>
+                            <button class="emotion-btn" onclick="selectEmotion('😡', '분노')">
+                                <span class="emotion-icon">😡</span>
+                                <span>분노</span>
+                            </button>
+                            <button class="emotion-btn" onclick="selectEmotion('😰', '불안')">
+                                <span class="emotion-icon">😰</span>
+                                <span>불안</span>
+                            </button>
+                            <button class="emotion-btn" onclick="selectEmotion('😌', '평온')">
+                                <span class="emotion-icon">😌</span>
+                                <span>평온</span>
+                            </button>
+                            <button class="emotion-btn" onclick="selectEmotion('😴', '피곤')">
+                                <span class="emotion-icon">😴</span>
+                                <span>피곤</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="selected-emotion" id="selectedEmotion">
+                        <p>감정을 선택해주세요</p>
+                    </div>
+
+                    <div class="emotion-prompts" id="emotionPrompts"></div>
+
+                    <textarea id="diaryText" placeholder="오늘의 감정에 대해 자유롭게 써보세요..."></textarea>
+                    
+                    <div class="demo-actions">
+                        <button class="action-btn primary" onclick="processDiary()">
+                            <i class="fas fa-arrow-right"></i>
+                            영작하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 영작/번역 탭 -->
+            <div id="translate-tab" class="tab-content">
+                <div class="demo-card">
+                    <h3>🔄 영작/번역</h3>
+                    <p>한국어 일기를 영어로 번역하거나 직접 영작해보세요.</p>
+                    
+                    <div class="translation-modes">
+                        <label class="mode-option">
+                            <input type="radio" name="mode" value="auto" checked>
+                            <span>자동 번역</span>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="mode" value="manual">
+                            <span>직접 영작</span>
+                        </label>
+                    </div>
+
+                    <div class="translation-container">
+                        <div class="text-area-container">
+                            <label>한국어 일기</label>
+                            <textarea id="koreanText" placeholder="번역할 한국어 텍스트를 입력하세요..."></textarea>
+                        </div>
+                        <div class="translate-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="text-area-container">
+                            <label>영어 번역</label>
+                            <textarea id="englishText" placeholder="여기에 영어 번역이 나타납니다..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="demo-actions">
+                        <button class="action-btn primary" onclick="translateText()">
+                            <i class="fas fa-language"></i>
+                            번역하기
+                        </button>
+                        <button class="action-btn secondary" onclick="speakText()">
+                            <i class="fas fa-microphone"></i>
+                            말하기 연습으로
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 말하기 연습 탭 -->
+            <div id="speak-tab" class="tab-content">
+                <div class="demo-card">
+                    <h3>🔊 말하기 연습</h3>
+                    <p>번역된 영어 문장을 따라 말해보세요.</p>
+                    
+                    <div class="practice-text" id="practiceText">
+                        <p>번역된 영어 문장이 여기에 나타납니다.</p>
+                    </div>
+
+                    <div class="speech-controls">
+                        <button class="speech-btn" onclick="playTargetAudio()">
+                            <i class="fas fa-play"></i>
+                            원어민 발음 듣기
+                        </button>
+                        <button class="speech-btn record" onclick="startRecording()">
+                            <i class="fas fa-microphone"></i>
+                            녹음하기
+                        </button>
+                        <button class="speech-btn" onclick="stopRecording()" disabled>
+                            <i class="fas fa-stop"></i>
+                            녹음 정지
+                        </button>
+                    </div>
+
+                    <div class="recording-status" id="recordingStatus">
+                        <p>녹음 버튼을 눌러 말하기 연습을 시작하세요</p>
+                    </div>
+
+                    <div class="pronunciation-feedback" id="pronunciationFeedback"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">✨ 주요 기능</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>감정 기반 일기</h3>
+                    <p>감정을 선택하고 관련 키워드와 질문을 통해 더 깊이 있는 일기를 작성할 수 있습니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>자율 영작/번역</h3>
+                    <p>자동 번역 기능과 직접 영작 모드를 통해 영어 실력을 단계별로 향상시킬 수 있습니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>말하기 연습</h3>
+                    <p>음성 인식 기술을 통해 발음을 체크하고 자연스러운 영어 말하기를 연습할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personas Section -->
+    <section id="personas" class="personas-section">
+        <div class="container">
+            <h2 class="section-title">👥 이런 분들께 추천합니다</h2>
+            <div class="personas-grid">
+                <div class="persona-card">
+                    <div class="persona-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>자기표현형 루틴러</h3>
+                    <p class="persona-name">박지수님 같은 분</p>
+                    <p>감정 표현과 루틴 실천 욕구가 강한 20~30대로, 일기를 통해 감정을 정리하고 영어 실력도 함께 기르고 싶은 분</p>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>실전 말하기형 도전러</h3>
+                    <p class="persona-name">김준호님 같은 분</p>
+                    <p>문장 암기보다는 자연스러운 말하기 연습을 원하며, 실전에서 바로 써먹을 수 있는 영어를 배우고 싶은 분</p>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>습관 형성형 의지박약러</h3>
+                    <p class="persona-name">이다혜님 같은 분</p>
+                    <p>혼자서는 꾸준히 하기 어렵지만, 함께하거나 동기를 자극받으면 습관을 형성할 수 있는 분</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-microphone-alt"></i>
+                        <span>스피크 다이어리</span>
+                    </div>
+                    <p>감정을 영어로 말하는 새로운 방법</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#demo">데모 체험</a>
+                    <a href="#features">기능</a>
+                    <a href="#personas">사용자</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 스피크 다이어리. 모든 권리 보유.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
