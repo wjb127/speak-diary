@@ -1018,25 +1018,14 @@ textarea:focus {
     flex-wrap: wrap;
 }
 
-.original-price {
-    text-decoration: line-through;
-    opacity: 0.6;
-    font-size: 0.9rem;
-}
-
-.discount-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #10b981;
-}
-
-.discount-badge {
-    background: #ef4444;
+.service-benefit {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
 }
 
 .preorder-form-container {
